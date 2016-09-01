@@ -19,16 +19,15 @@ var regexSequences = [
     [/\> \</g, "><"],                              // remove whitespace between tags
 ];
 
-function getExtractedSVG(svgStr, query) {
+function getExtractedSVG(svgStr, query, loaderContext) {
     // interpolate hashes in classPrefix
     if(!!query && !!query.classPrefix) {
-        const name = query.classPrefix === true ? '__[hash:base64:7]__' : query.classPrefix;
-        query.classPrefix = loaderUtils.interpolateName({}, name, {content: svgStr});
+        const name = query.classPrefix === true ? '[name]-' : query.classPrefix;
+        query.classPrefix = loaderUtils.interpolateName(loaderContext, name, {content: svgStr});
     }
-
     if (!!query && !!query.idPrefix) {
-        const id_name = query.idPrefix === true ? '__[hash:base64:7]__' : query.idPrefix;
-        query.idPrefix = loaderUtils.interpolateName({}, id_name, {content: svgStr});
+        const id_name = query.idPrefix === true ? '[name]-' : query.idPrefix;
+        query.idPrefix = loaderUtils.interpolateName(loaderContext, id_name, {content: svgStr});
     }
 
     // Clean-up XML crusts like comments and doctype, etc.
@@ -56,7 +55,7 @@ function SVGInlineLoader(content) {
     // Configuration
     var query = loaderUtils.parseQuery(this.query);
 
-    return "module.exports = " + JSON.stringify(getExtractedSVG(content, query));
+    return "module.exports = " + JSON.stringify(getExtractedSVG(content, query, this));
 }
 
 SVGInlineLoader.getExtractedSVG = getExtractedSVG;

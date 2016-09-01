@@ -1,6 +1,6 @@
 {
-  "name": "svg-inline-loader",
-  "version": "0.6.1",
+  "name": "lr-svg-inline-loader",
+  "version": "0.6.2",
   "description": "Cleans up and inlines your SVG files into Webpack module.",
   "main": "index.js",
   "scripts": {
